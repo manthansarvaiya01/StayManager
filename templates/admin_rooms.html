@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+    <i class="fas fa-bed me-3 fs-2 gold-glow"></i>
+    <h3 class="mb-0 text-white">Manage Rooms</h3>
+</div>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <i class="fas fa-exclamation-triangle me-2"></i>{{ messages[0] }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-gradient text-white">
+        <i class="fas fa-plus me-2"></i>Add New Room
+    </div>
+    <div class="card-body">
+        <form method="post" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label"><i class="fas fa-door-open me-2"></i>Room Number</label>
+                <input class="form-control" name="room_number" type="number" placeholder="Enter room number" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label"><i class="fas fa-tag me-2"></i>Room Type</label>
+                <select class="form-control" name="room_type" required>
+                    <option value="">Select Room Type</option>
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Suite">Suite</option>
+                    <option value="Deluxe">Deluxe</option>
+                    <option value="Family">Family</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label"><i class="fas fa-rupee-sign me-2"></i>Price per Night</label>
+                <input class="form-control" name="price" placeholder="Enter price" type="number" required>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-gradient w-100">
+                    <i class="fas fa-plus me-2"></i>Add Room
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-gradient text-white">
+        <i class="fas fa-list me-2"></i>All Rooms
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th><i class="fas fa-door-open me-2"></i>Room Number</th>
+                        <th><i class="fas fa-tag me-2"></i>Type</th>
+                        <th><i class="fas fa-rupee-sign me-2"></i>Price</th>
+                        <th><i class="fas fa-info-circle me-2"></i>Status</th>
+                        <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td class="fw-bold">{{ room.room_number }}</td>
+                        <td>{{ room.room_type }}</td>
+                        <td class="text-success fw-bold">₹{{ room.price }}</td>
+                        <td>
+                            {% if room.status == 'Available' %}
+                                <span class="badge bg-success"><i class="fas fa-check me-1"></i>{{ room.status }}</span>
+                            {% else %}
+                                <span class="badge bg-danger"><i class="fas fa-times me-1"></i>{{ room.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="/admin/upload-photos/{{ room.id }}" class="btn btn-info btn-sm me-1">
+                                <i class="fas fa-camera me-1"></i>Upload Photos
+                            </a>
+                            <a href="/admin/delete-room/{{ room.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this room?')">
+                                <i class="fas fa-trash me-1"></i>Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<a href="/admin/dashboard" class="btn btn-secondary mt-3">
+    <i class="fas fa-arrow-left me-2"></i>Back to Admin Dashboard
+</a>
+{% endblock %}

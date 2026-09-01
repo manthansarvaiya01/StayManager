@@ -1,0 +1,9 @@
+/* Prevent horizontal scroll caused by accidental overflow */
+html, body {
+	overflow-x: hidden;
+}
+
+/* Minor responsive tweaks */
+.container {
+	max-width: 100%;
+}

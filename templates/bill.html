@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    @media print {
+        body {
+            background-color: white !important;
+        }
+        .container {
+            max-width: 100% !important;
+        }
+        .btn-group, .text-center > button, .text-center > a {
+            display: none;
+        }
+        .card {
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+        }
+    }
+</style>
+
+<style>
+    :root{
+        --gold: #d4af37;
+        --gold-dark: #b8860b;
+        --accent: #2d6a4f; /* deep green accent */
+        --muted: #6c757d;
+        --card-bg: rgba(245,245,245,0.95);
+    }
+
+    .card-header{
+        background: linear-gradient(90deg,var(--gold) 0%, var(--gold-dark) 100%);
+        color: #111;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .gold-text{ color: var(--gold); }
+
+    .badge.bg-dark{ background: #111; color: #fff; }
+
+    .badge.bg-success{ background: var(--accent); color: #fff; }
+
+    thead.table-dark, .table thead{
+        background: linear-gradient(90deg, #b8860b, #8c6a0a);
+        color: #fff;
+    }
+
+    .card{ background-color: var(--card-bg); }
+
+    .text-muted{ color: var(--muted) !important; }
+</style>
+
+<style>
+    /* Dark bill theme overrides */
+    .card, .card-body {
+        background-color: #000 !important;
+        color: #fff !important;
+    }
+
+    /* Most templates use .text-dark expecting dark text; override locally */
+    .card .text-dark { color: #fff !important; }
+
+    /* Table readability on dark background */
+    table.table th, table.table td { color: #fff !important; border-color: rgba(255,255,255,0.08) !important; }
+    thead.table-dark, .table thead{ background: linear-gradient(90deg, #b8860b, #8c6a0a); color: #111 !important; }
+
+    .card-footer { color: #cfcfcf !important; background: transparent !important; }
+
+    /* Buttons and badges */
+    .btn-outline-secondary { color: #ddd; border-color: rgba(255,255,255,0.12); }
+    .btn-gradient { background: linear-gradient(90deg,var(--gold) 0%, var(--gold-dark) 100%); color:#111; }
+
+    @media print {
+        .card { background-color: white !important; color: #111 !important; }
+        .card .text-dark { color: #111 !important; }
+        table.table th, table.table td { color: #111 !important; border-color: rgba(0,0,0,0.08) !important; }
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg" style="border: 2px solid rgba(212, 175, 55, 0.5);">
+                <div class="card-header bg-gradient text-white text-center py-4">
+                    <h3 class="mb-1"><i class="fas fa-file-invoice me-2"></i>BOOKMYSTAY-HOTEL</h3>
+                    <p class="mb-0 small">Premium Hotel Management System</p>
+                </div>
+                
+                <div class="card-body" style="background-color: rgba(245, 245, 245, 0.95);">
+                    <!-- Bill Header -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5 class="text-dark"><i class="fas fa-info-circle me-2 gold-text"></i>Bill Details</h5>
+                            <p class="text-dark mb-1"><strong>Bill No:</strong> <span class="badge bg-dark">{{ booking.id }}</span></p>
+                            <p class="text-dark mb-0"><strong>Invoice Date:</strong> {{ booking.created_at.strftime('%d-%m-%Y') if booking.created_at else 'N/A' }}</p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <h5 class="text-dark"><i class="fas fa-building me-2 gold-text"></i>Hotel Details</h5>
+                            <p class="text-dark mb-1"><strong>Email:</strong> info@bookmystay.com</p>
+                            <p class="text-dark mb-0"><strong>Contact:</strong> +91 9876543210</p>
+                        </div>
+                    </div>
+
+                    <hr style="border: 1px solid rgba(212, 175, 55, 0.3);">
+
+                    <!-- Guest & Booking Details -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card" style="background: rgba(30, 30, 30, 0.08); border: 1px solid rgba(212, 175, 55, 0.3);">
+                                <div class="card-body">
+                                    <h6 class="text-dark mb-3"><i class="fas fa-user me-2 gold-text"></i><strong>Guest Information</strong></h6>
+                                    <p class="text-dark mb-2"><strong>Guest Name:</strong> {{ booking.guest.name }}</p>
+                                    <p class="text-dark mb-2"><strong>Phone:</strong> {{ booking.guest.phone }}</p>
+                                    <p class="text-dark mb-2"><strong>Email:</strong> {{ booking.guest.email or 'N/A' }}</p>
+                                    <p class="text-dark mb-0"><strong>Aadhaar/ID:</strong> {{ booking.guest.aadhaar or 'N/A' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card" style="background: rgba(30, 30, 30, 0.08); border: 1px solid rgba(212, 175, 55, 0.3);">
+                                <div class="card-body">
+                                    <h6 class="text-dark mb-3"><i class="fas fa-bed me-2 gold-text"></i><strong>Booking Information</strong></h6>
+                                    <p class="text-dark mb-2"><strong>Room Number:</strong> <span class="badge bg-success">{{ booking.room.room_number }}</span></p>
+                                    <p class="text-dark mb-2"><strong>Room Type:</strong> {{ booking.room.room_type }}</p>
+                                    <p class="text-dark mb-2"><strong>Check-in Date:</strong> {{ booking.check_in.strftime('%d-%m-%Y') if booking.check_in else 'N/A' }}</p>
+                                    <p class="text-dark mb-0"><strong>Check-out Date:</strong> {{ booking.check_out.strftime('%d-%m-%Y') if booking.check_out else 'N/A' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="border: 1px solid rgba(212, 175, 55, 0.3);">
+
+                    <!-- Charges & Calculations -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h6 class="text-dark mb-3"><i class="fas fa-list me-2 gold-text"></i><strong>Charges Breakdown</strong></h6>
+                            <table class="table table-bordered">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th style="width: 50%;" class="text-white">Description</th>
+                                        <th style="width: 25%;" class="text-white text-center">Quantity/Days</th>
+                                        <th style="width: 25%;" class="text-white text-end">Amount (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-dark">
+                                            <strong>Room Charges</strong><br>
+                                            <small class="text-muted">{{ booking.room.room_type }} - Per night</small>
+                                        </td>
+                                        <td class="text-center text-dark">{{ days }} {% if days == 1 %}Night{% else %}Nights{% endif %}</td>
+                                        <td class="text-end text-dark"><strong>₹{{ (booking.room.price * days)|int }}</strong></td>
+                                    </tr>
+                                    <tr style="background: rgba(212, 175, 55, 0.1);">
+                                        <td class="text-dark"><strong>Subtotal</strong></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-end text-dark"><strong>₹{{ (booking.room.price * days)|int }}</strong></td>
+                                    </tr>
+                                    {% set subtotal = booking.room.price * days %}
+                                    {% set tax_rate = 0.05 %}
+                                    {% set tax_amount = (subtotal * tax_rate)|int %}
+                                    {% set final_total = subtotal + tax_amount %}
+                                    <tr>
+                                        <td class="text-dark"><strong>Tax (5% GST)</strong></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-end text-dark"><strong>₹{{ tax_amount }}</strong></td>
+                                    </tr>
+                                    <tr style="background: rgba(40, 167, 69, 0.2); border-top: 2px solid rgba(212, 175, 55, 0.5);">
+                                        <td class="text-dark fs-5"><strong><i class="fas fa-calculator me-2"></i>Total Amount Due</strong></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-end"><strong class="fs-5 text-success">₹{{ final_total }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Payment Terms & Notes -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card" style="background: rgba(30, 30, 30, 0.08); border: 1px solid rgba(212, 175, 55, 0.3);">
+                                <div class="card-body">
+                                    <h6 class="text-dark mb-2"><i class="fas fa-info-circle me-2 gold-text"></i><strong>Payment Terms</strong></h6>
+                                    <ul class="text-dark small mb-0">
+                                        <li>Payment due upon checkout</li>
+                                        <li>Cash/Card/UPI accepted</li>
+                                        <li>Refund as per policy</li>
+                                        <li>100% satisfaction guarantee</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card" style="background: rgba(30, 30, 30, 0.08); border: 1px solid rgba(212, 175, 55, 0.3);">
+                                <div class="card-body">
+                                    <h6 class="text-dark mb-2"><i class="fas fa-shield-alt me-2 gold-text"></i><strong>Additional Info</strong></h6>
+                                    <p class="text-dark small mb-0">
+                                        Thank you for choosing BOOKMYSTAY-HOTEL. We appreciate your stay and look forward to welcoming you again. For any queries, please contact our customer service.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="border: 1px solid rgba(212, 175, 55, 0.3);">
+
+                    <!-- Signature Section -->
+                    <div class="row mt-4">
+                        <div class="col-md-4 text-center">
+                            <div style="border-top: 2px solid #333; padding-top: 10px; min-height: 60px;"></div>
+                            <p class="text-dark small"><strong>Guest Signature</strong></p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <p class="text-dark small text-muted">{{ booking.created_at.strftime('%d-%m-%Y %H:%M') if booking.created_at else 'Generated: N/A' }}</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div style="border-top: 2px solid #333; padding-top: 10px; min-height: 60px;"></div>
+                            <p class="text-dark small"><strong>Authorized By</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5 no-print">
+                        <button onclick="window.print()" class="btn btn-gradient me-2">
+                            <i class="fas fa-print me-2"></i>Print Bill
+                        </button>
+                        <button onclick="window.history.back()" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Go Back
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center text-muted small py-2">
+                    <p class="mb-0">© 2024 BOOKMYSTAY-HOTEL. All rights reserved. | This is a computer-generated bill and doesn't require signature.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .no-print {
+        display: block;
+    }
+
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+        .btn-gradient {
+            display: none !important;
+        }
+    }
+</style>
+{% endblock %}

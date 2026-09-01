@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BOOKMYSTAY-HOTEL - Hotel Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        .navbar {
+            background: rgba(10, 10, 10, 0.95) !important;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #d4af37 !important;
+        }
+        .card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            color: #ffffff;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+        .btn {
+            border-radius: 10px;
+            padding: 10px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+            color: #000;
+        }
+        .alert {
+            border-radius: 10px;
+            border-left: 4px solid;
+            background: rgba(20, 20, 20, 0.9);
+            color: #ffffff;
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 12px 16px;
+            background: rgba(20, 20, 20, 0.6);
+            color: #ffffff;
+        }
+        .form-control:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+            background: rgba(20, 20, 20, 0.8);
+            color: #ffffff;
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .form-label {
+            color: #d4af37;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .bg-gradient {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #000;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        }
+        .gold-glow {
+            color: #d4af37;
+        }
+        .text-muted {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #ffffff;
+        }
+        .card-body {
+            color: #ffffff;
+        }
+        .card-body p, .card-body h5, .card-body strong {
+            color: #ffffff;
+        }
+        .card-header {
+            background: rgba(30, 30, 30, 0.9);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            color: #d4af37;
+        }
+        a {
+            color: #d4af37;
+        }
+        a:hover {
+            color: #f4d03f;
+        }
+    </style>
+</head>
+<body>
+
+<style>
+    .table {
+        --bs-table-bg: rgba(20, 20, 20, 0.8) !important;
+        --bs-table-color: #ffffff !important;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    }
+    .table thead {
+        --bs-table-bg: rgba(30, 30, 30, 0.9) !important;
+        --bs-table-color: #d4af37 !important;
+    }
+    .table tbody tr {
+        --bs-table-bg: transparent !important;
+        --bs-table-color: #ffffff !important;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+    .table tbody tr:hover {
+        --bs-table-hover-bg: rgba(212, 175, 55, 0.05) !important;
+    }
+    .table > :not(caption) > * > * {
+        color: #ffffff !important;
+        background-color: transparent !important;
+        border-color: rgba(212, 175, 55, 0.2) !important;
+    }
+    .table thead > tr > th {
+        color: #d4af37 !important;
+        border-bottom: 2px solid rgba(212, 175, 55, 0.3) !important;
+    }
+    .table tbody > tr > td {
+        border-color: rgba(212, 175, 55, 0.1) !important;
+    }
+    .fw-bold {
+        color: #ffffff !important;
+    }
+    .text-white {
+        color: #ffffff !important;
+    }
+</style>
+
+<nav class="navbar navbar-dark px-3 d-flex justify-content-between">
+    <span class="navbar-brand fw-bold gold-glow">
+        <i class="fas fa-hotel me-2"></i>BOOKMYSTAY-HOTEL
+    </span>
+    <div>
+        {% if session.get('role') == 'admin' and request.endpoint == 'dashboard' %}
+            <a href="/admin/dashboard" class="btn btn-outline-light btn-sm me-2">
+                <i class="fas fa-arrow-left me-1"></i>Back to Admin
+            </a>
+        {% elif back_url %}
+            <a href="{{ back_url }}" class="btn btn-outline-light btn-sm me-2">
+                <i class="fas fa-arrow-left me-1"></i>Back
+            </a>
+        {% endif %}
+        {% if session.get('user') %}
+            <a href="/logout" class="btn btn-danger btn-sm">
+                <i class="fas fa-sign-out-alt me-1"></i>Logout
+            </a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container mt-4">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

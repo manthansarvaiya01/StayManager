@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="text-white mb-4"><i class="fas fa-user-tie me-2 gold-glow"></i>Manage Receptionists</h3>
+
+<form method="post" action="/admin/create-receptionist" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input class="form-control" name="username" placeholder="Username" required>
+    </div>
+    <div class="col-md-4">
+        <input class="form-control" name="password" placeholder="Password" required>
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-primary w-100">Create Receptionist</button>
+    </div>
+</form>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                        <th><i class="fas fa-user me-2"></i>Username</th>
+                        <th><i class="fas fa-lock me-2"></i>Password</th>
+                        <th><i class="fas fa-user-tag me-2"></i>Role</th>
+                        <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in receptionists %}
+                    <tr>
+                        <td class="text-white">{{ loop.index }}</td>
+                        <td class="text-white">{{ r.username }}</td>
+                        <td class="text-white">{{ r.password }}</td>
+                        <td class="text-white">{{ r.role }}</td>
+                        <td>
+                            <a href="/admin/delete-receptionist/{{ r.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this receptionist?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">No receptionists created yet</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<a href="/admin/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+{% endblock %}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard | BOOKMYSTAY-HOTEL</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+        }
+        .card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #ffffff !important;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.2);
+        }
+        .card-body {
+            color: #ffffff !important;
+        }
+        .card-body p, .card-body h5, .card-body h6, .card-body strong {
+            color: #ffffff !important;
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            border: none;
+            color: #000;
+            border-radius: 10px;
+            padding: 12px 24px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            font-weight: 600;
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        }
+        .navbar {
+            background: rgba(10, 10, 10, 0.95) !important;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #d4af37 !important;
+        }
+        .gold-text {
+            color: #d4af37;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark px-4">
+    <span class="navbar-brand fw-bold">
+        <i class="fas fa-hotel me-2 gold-text"></i>BOOKMYSTAY-HOTEL – Admin
+    </span>
+    <div>
+        <a href="/dashboard" class="btn btn-outline-light me-2">
+            <i class="fas fa-users me-2"></i>Staff Dashboard
+        </a>
+        <a href="/logout" class="btn btn-danger">
+            <i class="fas fa-sign-out-alt me-2"></i>Logout
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center mb-4">
+        <i class="fas fa-tachometer-alt me-3 fs-2 gold-text"></i>
+        <h3 class="mb-0 text-white">Admin Dashboard</h3>
+    </div>
+    <p class="text-white mb-4" style="opacity: 0.9;">Welcome, {{ session.get('user') }}</p>
+    
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white" style="background: linear-gradient(135deg, #2d5016 0%, #3d6b1f 100%); border: 1px solid rgba(212, 175, 55, 0.5);">
+                <div class="card-body text-center">
+                    <i class="fas fa-rupee-sign fa-2x mb-2"></i>
+                    <h6>Total Revenue</h6>
+                    <h4 class="fw-bold">₹{{ total_revenue }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white" style="background: linear-gradient(135deg, #2c5f6f 0%, #3a7a8f 100%); border: 1px solid rgba(212, 175, 55, 0.5);">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x mb-2"></i>
+                    <h6>Guests This Month</h6>
+                    <h4 class="fw-bold">{{ total_guests_this_month }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border: 1px solid rgba(212, 175, 55, 0.5);">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-line fa-2x mb-2 gold-text"></i>
+                    <h6>Avg Booking Value</h6>
+                    <h4 class="fw-bold">₹{{ avg_booking_value }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white" style="background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border: 1px solid rgba(212, 175, 55, 0.5); color: #000 !important;">
+                <div class="card-body text-center" style="color: #000 !important;">
+                    <i class="fas fa-percentage fa-2x mb-2" style="color: #000;"></i>
+                    <h6 style="color: #000;">Occupancy Rate</h6>
+                    <h4 class="fw-bold" style="color: #000;">{{ occupancy_rate }}%</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-bed fa-3x mb-3 gold-text"></i>
+                    <h5>Manage Rooms</h5>
+                    <p class="text-muted mb-3">Create & View Rooms</p>
+                    <a href="/admin/rooms" class="btn btn-gradient w-100">
+                        <i class="fas fa-cog me-2"></i>Manage Rooms
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-tie fa-3x mb-3 gold-text"></i>
+                    <h5>Receptionists</h5>
+                    <p class="text-muted mb-3">Manage Staff Accounts</p>
+                    <a href="/admin/receptionists" class="btn btn-gradient w-100">
+                        <i class="fas fa-users me-2"></i>Manage Staff
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-history fa-3x mb-3 gold-text"></i>
+                    <h5>Booking History</h5>
+                    <p class="text-muted mb-3">Check-ins & Room Status</p>
+                    <a href="/admin/history" class="btn btn-gradient w-100">
+                        <i class="fas fa-calendar-alt me-2"></i>View History
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

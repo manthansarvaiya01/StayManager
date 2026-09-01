@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>Upload Room Photos</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Room {{ room.room_number }} - {{ room.room_type }}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Photo 1</label>
+                        <input class="form-control" name="photo1" type="file" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Photo 2</label>
+                        <input class="form-control" name="photo2" type="file" accept="image/*">
+                    </div>
+                    <button class="btn btn-success w-100">Upload Photos</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Current Photos</h5>
+            </div>
+            <div class="card-body text-center">
+                <img src="{{ url_for('static', filename='images/rooms/' + (room.photo1 or 'default.jpg')) }}" 
+                     class="img-fluid mb-3" style="max-height: 200px;" alt="Room Photo 1">
+                <img src="{{ url_for('static', filename='images/rooms/' + (room.photo2 or 'default.jpg')) }}" 
+                     class="img-fluid mb-3" style="max-height: 200px;" alt="Room Photo 2">
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="/admin/rooms" class="btn btn-secondary mt-3">Back to Rooms</a>
+{% endblock %}

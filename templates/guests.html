@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+    <i class="fas fa-users me-3 fs-2 gold-glow"></i>
+    <h3 class="mb-0 text-white">Guest Management</h3>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-gradient text-white">
+        <i class="fas fa-list me-2"></i>All Guests
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                        <th><i class="fas fa-user me-2"></i>Name</th>
+                        <th><i class="fas fa-phone me-2"></i>Phone</th>
+                        <th><i class="fas fa-id-card me-2"></i>Aadhaar</th>
+                        <th><i class="fas fa-calendar-alt me-2"></i>Check-in</th>
+                        <th><i class="fas fa-calendar-check me-2"></i>Check-out</th>
+                        <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td class="fw-bold text-white">{{ loop.index }}</td>
+                        <td class="text-white">{{ booking.guest.name }}</td>
+                        <td><span class="badge bg-info">{{ booking.guest.phone }}</span></td>
+                        <td class="text-white">{{ booking.guest.aadhaar or 'N/A' }}</td>
+                        <td class="text-white">{{ booking.check_in }}</td>
+                        <td class="text-white">{{ booking.check_out }}</td>
+                        <td>
+                            <a href="/bill/{{ booking.id }}" class="btn btn-gradient btn-sm">
+                                <i class="fas fa-file-invoice me-1"></i>Generate Bill
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            <i class="fas fa-users fa-3x mb-3 text-muted"></i>
+                            <br>No guests yet
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<a href="/dashboard" class="btn btn-secondary mt-3">
+    <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+</a>
+{% endblock %}

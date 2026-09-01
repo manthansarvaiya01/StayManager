@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-tachometer-alt me-2 gold-glow"></i>Receptionist Dashboard
+        </h2>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center text-white" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border: 1px solid rgba(212, 175, 55, 0.5);">
+            <div class="card-body">
+                <i class="fas fa-door-open fa-2x mb-2 gold-glow"></i>
+                <h5>Total Rooms</h5>
+                <h3>{{ total }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white text-center" style="background: linear-gradient(135deg, #2d5016 0%, #3d6b1f 100%); border: 1px solid rgba(212, 175, 55, 0.5);">
+            <div class="card-body">
+                <i class="fas fa-check-circle fa-2x mb-2"></i>
+                <h5>Available</h5>
+                <h3>{{ available }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white text-center" style="background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border: 1px solid rgba(212, 175, 55, 0.5); color: #000 !important;">
+            <div class="card-body" style="color: #000 !important;">
+                <i class="fas fa-bed fa-2x mb-2" style="color: #000;"></i>
+                <h5 style="color: #000;">Booked</h5>
+                <h3 style="color: #000;">{{ booked }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white text-center" style="background: linear-gradient(135deg, #2c5f6f 0%, #3a7a8f 100%); border: 1px solid rgba(212, 175, 55, 0.5);">
+            <div class="card-body">
+                <i class="fas fa-rupee-sign fa-2x mb-2"></i>
+                <h5>Revenue</h5>
+                <h3>₹{{ total_revenue }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fas fa-clock me-2"></i>Pending Booking Requests
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if pending_requests %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-user me-1"></i>Guest</th>
+                                <th><i class="fas fa-door-open me-1"></i>Room</th>
+                                <th><i class="fas fa-calendar-check me-1"></i>Check-in</th>
+                                <th><i class="fas fa-calendar-times me-1"></i>Check-out</th>
+                                <th><i class="fas fa-user-tag me-1"></i>Requested By</th>
+                                <th><i class="fas fa-cogs me-1"></i>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for req in pending_requests %}
+                            <tr>
+                                <td>{{ req.guest.name }}</td>
+                                <td>{{ req.room.room_number }} ({{ req.room.room_type }})</td>
+                                <td>{{ req.check_in }}</td>
+                                <td>{{ req.check_out }}</td>
+                                <td>{{ req.requested_by }}</td>
+                                <td>
+                                    <a href="/approve-request/{{ req.id }}" class="btn btn-sm me-1" style="background: linear-gradient(135deg, #2d5016 0%, #3d6b1f 100%); color: white; border: none;">
+                                        <i class="fas fa-check me-1"></i>Approve
+                                    </a>
+                                    <a href="/reject-request/{{ req.id }}" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-times me-1"></i>Reject
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>No pending approvals at the moment
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-calendar-plus fa-3x mb-3 gold-glow"></i>
+                <h5>Book Room</h5>
+                <p class="text-muted">Create New Booking</p>
+                <a href="/book" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus me-2"></i>Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-3x mb-3 gold-glow"></i>
+                <h5>Guests</h5>
+                <p class="text-muted">View Guest Data</p>
+                <a href="/guests" class="btn btn-lg" style="background: linear-gradient(135deg, #2d5016 0%, #3d6b1f 100%); color: white; border: none;">
+                    <i class="fas fa-eye me-2"></i>View Guests
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

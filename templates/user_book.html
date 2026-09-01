@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Room - BOOKMYSTAY-HOTEL</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff !important;
+        }
+        .card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+        .card-header {
+            background: rgba(212, 175, 55, 0.1) !important;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            color: #d4af37 !important;
+        }
+        .card-body {
+            color: #ffffff !important;
+        }
+        .form-label {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        .form-control {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #ffffff !important;
+        }
+        .form-control:focus {
+            background: rgba(30, 30, 30, 0.9);
+            border-color: #d4af37;
+            color: #ffffff !important;
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border: none;
+            color: #0a0a0a;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 12px 25px;
+            transition: all 0.3s ease;
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            color: #0a0a0a;
+        }
+        .navbar {
+            background: rgba(20, 20, 20, 0.95) !important;
+            border-bottom: 2px solid #d4af37;
+            backdrop-filter: blur(10px);
+        }
+        .navbar-brand {
+            color: #d4af37 !important;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+        .gold-glow {
+            color: #d4af37;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        .badge {
+            padding: 8px 12px;
+            font-weight: 500;
+        }
+        h4, h5, strong {
+            color: #ffffff !important;
+        }
+        p {
+            color: #e0e0e0 !important;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark px-4">
+    <span class="navbar-brand fw-bold">
+        <i class="fas fa-hotel me-2 gold-glow"></i>BOOKMYSTAY-HOTEL
+    </span>
+    <div>
+        <a href="/user/dashboard" class="btn btn-outline-warning me-2">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+        <a href="/logout" class="btn btn-danger">
+            <i class="fas fa-sign-out-alt me-2"></i>Logout
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-info-circle me-2"></i>Room Details</h5>
+                </div>
+                <div class="card-body">
+                    <h4><i class="fas fa-door-open me-2 gold-glow"></i>Room {{ room.room_number }}</h4>
+                    <p><strong><i class="fas fa-tag me-2"></i>Type:</strong> {{ room.room_type }}</p>
+                    <p><strong><i class="fas fa-rupee-sign me-2"></i>Price:</strong> ₹{{ room.price }}/night</p>
+                    <span class="badge bg-success">
+                        <i class="fas fa-check me-1"></i>Available
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-user-plus me-2"></i>Booking Form</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-user me-2"></i>Guest Name</label>
+                            <input class="form-control" name="name" placeholder="Enter guest name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-phone me-2"></i>Phone Number</label>
+                            <input class="form-control" name="phone" id="phone" value="+91" required>
+                            <div id="phone-error" class="text-danger small" style="display:none;">Please enter a valid 10-digit mobile number after +91</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-envelope me-2"></i>Email Address</label>
+                            <input class="form-control" name="email" type="email" placeholder="Enter email address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-id-card me-2"></i>Aadhaar Number</label>
+                            <input class="form-control" name="aadhaar" id="aadhaar" placeholder="XXXX XXXX XXXX" maxlength="14" required>
+                            <div id="aadhaar-error" class="text-danger small" style="display:none;">Please enter a valid 12-digit Aadhaar number</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-calendar-alt me-2"></i>Check-in Date</label>
+                            <input class="form-control" name="check_in" id="check_in" type="date" required>
+                            <div id="checkin-error" class="text-danger small" style="display:none;">Check-in date must be today or later</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-calendar-check me-2"></i>Check-out Date</label>
+                            <input class="form-control" name="check_out" id="check_out" type="date" required>
+                            <div id="date-error" class="text-danger small" style="display:none;">Check-out date must be after check-in date</div>
+                        </div>
+                        <button class="btn btn-gradient w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Submit Booking Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('phone').addEventListener('input', function(e) {
+    if (!e.target.value.startsWith('+91')) {
+        e.target.value = '+91';
+    }
+});
+
+document.getElementById('aadhaar').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 0) {
+        value = value.match(/.{1,4}/g).join(' ');
+    }
+    e.target.value = value;
+});
+
+document.querySelector('form').addEventListener('submit', function(e) {
+    const phone = document.getElementById('phone').value;
+    const aadhaar = document.getElementById('aadhaar').value.replace(/\s/g, '');
+    const checkIn = new Date(document.getElementById('check_in').value);
+    const checkOut = new Date(document.getElementById('check_out').value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    document.getElementById('phone-error').style.display = 'none';
+    document.getElementById('aadhaar-error').style.display = 'none';
+    document.getElementById('checkin-error').style.display = 'none';
+    document.getElementById('date-error').style.display = 'none';
+    
+    const phonePattern = /^\+91\d{10}$/;
+    if (!phonePattern.test(phone)) {
+        e.preventDefault();
+        document.getElementById('phone-error').style.display = 'block';
+        return;
+    }
+    
+    const aadhaarPattern = /^[1-9]\d{11}$/;
+    if (!aadhaarPattern.test(aadhaar)) {
+        e.preventDefault();
+        document.getElementById('aadhaar-error').style.display = 'block';
+        return;
+    }
+    
+    if (checkIn < today) {
+        e.preventDefault();
+        document.getElementById('checkin-error').style.display = 'block';
+        return;
+    }
+    
+    if (checkOut <= checkIn) {
+        e.preventDefault();
+        document.getElementById('date-error').style.display = 'block';
+    }
+});
+</script>
+
+</body>
+</html>
